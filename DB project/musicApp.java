@@ -28,8 +28,6 @@ public class musicApp {
 			String info[] = str.split(" ");
 			con = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:" + info[0] + "/musicdb", info[1], info[2]);
 			
-			//con = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/musicdb", "root", "990929");
-			
 			if(con == null) {
 				System.out.println("DB connection failed");
 				return;
