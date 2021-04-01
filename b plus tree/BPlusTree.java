@@ -50,7 +50,7 @@ public class BPlusTree {
 		else if(root instanceof IndexNode) {
 			Node curnode = root;
 			int index;
-			while(curnode instanceof IndexNode) {//leaf¸é ¸ØÃß±â
+			while(curnode instanceof IndexNode) {//leafë©´ ë©ˆì¶”ê¸°
 				index = binarySearch(key, curnode);
 				curnode = ((IndexNode)curnode).children.get(index);
 			}
@@ -76,10 +76,10 @@ public class BPlusTree {
 			return res;
 		}
 		
-		if(k < node.keys.get(0)) {//°¡Àå ¿ŞÂÊÀÌ¶û ºñ±³
+		if(k < node.keys.get(0)) {//ê°€ì¥ ì™¼ìª½ì´ë‘ ë¹„êµ
 			res = 0;
 		}
-		else if( k >= node.keys.get(right)) {//°¡Àå ¿À¸¥ÂÊÀÌ¶û ºñ±³
+		else if( k >= node.keys.get(right)) {//ê°€ì¥ ì˜¤ë¥¸ìª½ì´ë‘ ë¹„êµ
 			res = right + 1;
 		}
 		else {
@@ -102,10 +102,10 @@ public class BPlusTree {
 	
 	public void deleteKey(int key) {
 		Node leaf = findLeaf(key);
-		if(leaf.keys.contains(key) == false) {//leaf¿¡ key°¡ ¾ø´Â °æ¿ì
+		if(leaf.keys.contains(key) == false) {//leafì— keyê°€ ì—†ëŠ” ê²½ìš°
 			return;
 		}
-		else {//leaf¿¡ key°¡ ÀÖ´Â °æ¿ì
+		else {//leafì— keyê°€ ìˆëŠ” ê²½ìš°
 			this.pairs.remove(key);
 			
 			if(leaf.keys.size() > (degree - 1) / 2) {//underflow X
@@ -113,11 +113,11 @@ public class BPlusTree {
 			}
 			else {//underflow O
 				LeafNode node = ((LeafNode)leaf).borrow_node();
-				if(node != null) {//ºô¸±¼ö ÀÖ´Â °æ¿ì
+				if(node != null) {//ë¹Œë¦´ìˆ˜ ìˆëŠ” ê²½ìš°
 					node.borrow(node);
 				}
-				else {//¸øºô¸®´Â °æ¿ì
-					//ÀÌ°É ³»°¡ ÇÒ ¼ö ÀÖÀ»±î...?
+				else {//ëª»ë¹Œë¦¬ëŠ” ê²½ìš°
+					//ì´ê±¸ ë‚´ê°€ í•  ìˆ˜ ìˆì„ê¹Œ...?
 				}
 			}
 		}
@@ -133,7 +133,7 @@ public class BPlusTree {
 	public void singleSearch(int key) {
 		Node curnode = root;
 		int index;
-		while(curnode instanceof IndexNode) {//leaf¸é ¸ØÃß±â
+		while(curnode instanceof IndexNode) {//leafë©´ ë©ˆì¶”ê¸°
 			for(int i=0; i<curnode.keys.size()-1; i++) {
 				System.out.print(curnode.keys.get(i)+",");
 			}
@@ -141,7 +141,7 @@ public class BPlusTree {
 			index = binarySearch(key, curnode);
 			curnode = ((IndexNode)curnode).children.get(index);
 		}
-		//leaf¿¡ µµ´Ş
+		//leafì— ë„ë‹¬
 		if(curnode.keys.contains(key) == false) {
 			System.out.println("NOT FOUND");
 		}
@@ -150,10 +150,10 @@ public class BPlusTree {
 		}
 	}
 	
-	public LeafNode findLeaf(int key) {//key°¡ ÀÖ´Â leafnode Ã£±â(key°¡ ¾øÀ» ¼öµµ ÀÖÀ½)
+	public LeafNode findLeaf(int key) {//keyê°€ ìˆëŠ” leafnode ì°¾ê¸°(keyê°€ ì—†ì„ ìˆ˜ë„ ìˆìŒ)
 		Node curnode = root;
 		int index;
-		while(curnode instanceof IndexNode) {//leaf¸é ¸ØÃß±â
+		while(curnode instanceof IndexNode) {//leafë©´ ë©ˆì¶”ê¸°
 			index = binarySearch(key, curnode);
 			curnode = ((IndexNode)curnode).children.get(index);
 		}
@@ -171,9 +171,9 @@ public class BPlusTree {
 			LeafNode inStart = findLeaf(start);
 			LeafNode inEnd = findLeaf(end);
 			
-			int i, j;//i:¸Ç Ã³À½ Ãâ·ÂÇÒ Å°ÀÇ ÀÎµ¦½º(inStart node)
+			int i, j;//i:ë§¨ ì²˜ìŒ ì¶œë ¥í•  í‚¤ì˜ ì¸ë±ìŠ¤(inStart node)
 			
-			if(inStart.equals(inEnd)) {//µ¿ÀÏ ³ëµå
+			if(inStart.equals(inEnd)) {//ë™ì¼ ë…¸ë“œ
 				if(inStart.keys.contains(start) == true) {
 					i = inStart.keys.indexOf(start);
 				}
@@ -191,7 +191,7 @@ public class BPlusTree {
 					}
 				}
 			}
-			else {//¼­·Î ´Ù¸¥ ³ëµå
+			else {//ì„œë¡œ ë‹¤ë¥¸ ë…¸ë“œ
 				if(inStart.keys.contains(start) == true) {
 					i = inStart.keys.indexOf(start);
 				}
@@ -214,17 +214,17 @@ public class BPlusTree {
 					return;
 				}
 				
-				for(j=i; j<inStart.keys.size(); j++) {//Ã¹ ³ëµå Ãâ·Â
+				for(j=i; j<inStart.keys.size(); j++) {//ì²« ë…¸ë“œ ì¶œë ¥
 					System.out.println(inStart.keys.get(j)+","+pairs.get(inStart.keys.get(j)));
 				}
-				inStart = inStart.getNextNode();//¿· ³ëµå·Î ÀÌµ¿		
-				while(inStart.equals(inEnd) == false) {//¸¶Áö¸· ³ëµå¸¦ ¸¸³ª±â Àü±îÁö
+				inStart = inStart.getNextNode();//ì˜† ë…¸ë“œë¡œ ì´ë™		
+				while(inStart.equals(inEnd) == false) {//ë§ˆì§€ë§‰ ë…¸ë“œë¥¼ ë§Œë‚˜ê¸° ì „ê¹Œì§€
 					for(j=0; j<inStart.keys.size(); j++) {
 						System.out.println(inStart.keys.get(j)+","+pairs.get(inStart.keys.get(j)));
 					}
 					inStart = inStart.getNextNode();
 				}
-				//¸¶Áö¸· ³ëµå¸¦ ¸¸³²
+				//ë§ˆì§€ë§‰ ë…¸ë“œë¥¼ ë§Œë‚¨
 				j = 0;
 				while(inEnd.keys.get(j) <= end) {
 					System.out.println(inEnd.keys.get(j)+","+pairs.get(inEnd.keys.get(j)));
@@ -254,14 +254,14 @@ public class BPlusTree {
 		}
 		System.out.println();
 		int i = 0;
-		while(i < ((IndexNode)r).children.size()) {//leaf±îÁö
+		while(i < ((IndexNode)r).children.size()) {//leafê¹Œì§€
 			traverse(((IndexNode)r).children.get(i));
 			i++;
 		}
 		System.out.println();
 	}
 	
-	//index file¿¡  Æ®¸® ÀúÀå
+	//index fileì—  íŠ¸ë¦¬ ì €ì¥
 	public void writeFile(String file) throws IOException {
 		PrintWriter fw = new PrintWriter(new BufferedWriter(new FileWriter(file, false)));
 		fw.println(degree);
@@ -275,7 +275,7 @@ public class BPlusTree {
 				}
 				
 				i = 0;
-				while(i < ((IndexNode)r).children.size()) {//leaf±îÁö
+				while(i < ((IndexNode)r).children.size()) {//leafê¹Œì§€
 					
 					if(((IndexNode)r).children.get(i) instanceof LeafNode && i == 0) {
 						fw.print("leaf");
@@ -391,18 +391,18 @@ public class BPlusTree {
 			return;
 		}
 		int i = 0;
-		while(i < ((IndexNode)r).children.size()) {//leaf±îÁö
+		while(i < ((IndexNode)r).children.size()) {//leafê¹Œì§€
 			traverse_leaf(leaves, ((IndexNode)r).children.get(i));
 			i++;
 		}
 	}
 	
-	public BPlusTree readFile(String file) throws IOException {//index file ÀĞÀ¸¸é¼­ Æ®¸® °¡Á®¿À±â
+	public BPlusTree readFile(String file) throws IOException {//index file ì½ìœ¼ë©´ì„œ íŠ¸ë¦¬ ê°€ì ¸ì˜¤ê¸°
 		BufferedReader fr = new BufferedReader(new FileReader(file));
 		String line = "";
 		String[] aline;
 		
-		//degree ÀĞ°í tree »ı¼º
+		//degree ì½ê³  tree ìƒì„±
 		degree = Integer.parseInt(fr.readLine());
 		BPlusTree t = new BPlusTree(degree);
 		
@@ -414,7 +414,7 @@ public class BPlusTree {
 		}
 
 		aline = line.split(",");
-		//·çÆ®°¡ ¸®ÇÁÀÎÁö ¾Æ´ÑÁö ±¸º°ÇÏ±â
+		//ë£¨íŠ¸ê°€ ë¦¬í”„ì¸ì§€ ì•„ë‹Œì§€ êµ¬ë³„í•˜ê¸°
 		if(aline[0].substring(0,1).equals("l")) {
 			t.root = new LeafNode(degree);
 			aline[0] = aline[0].substring(4,aline[0].length());
@@ -430,18 +430,18 @@ public class BPlusTree {
 			traverse_read(t.root, line, fr, t);
 		}
 		
-		//leaf ¿¬°á
+		//leaf ì—°ê²°
 		ArrayList<LeafNode> leaves = new ArrayList<>();
 		t.traverse_leaf(leaves, t.root);
 		for(int i=0; i<leaves.size()-1; i++) {
 			leaves.get(i).setNextNode(leaves.get(i+1));
 		}
 		
-		//key-val ÀúÀå 
+		//key-val ì €ì¥ 
 		line = fr.readLine();
 		line = fr.readLine();
 		aline = line.split(",");
-		int size = aline.length;//keyÀÇ °³¼ö
+		int size = aline.length;//keyì˜ ê°œìˆ˜
 		int i = 0, key, val;
 		String[] pair;
 		while(i < size) {
